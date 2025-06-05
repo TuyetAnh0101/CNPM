@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="Trang chủ"/>
+    <item
+        android:id="@+id/nav_post"
+        android:icon="@drawable/add"
+        android:title="Đăng bán"/>
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/person"
+        android:title="Cá nhân"/>
+</menu>
