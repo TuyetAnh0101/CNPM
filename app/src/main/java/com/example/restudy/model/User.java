@@ -7,19 +7,23 @@ public class User {
     private String email;
     private String sex;
     private String phone;
+    private String role;
+    private boolean active;
 
     // Constructor không tham số
     public User() {
     }
 
     // Constructor với tất cả các trường
-    public User(int id, String name, String password, String email, String sex, String phone) {
+    public User(int id, String name, String password, String email, String sex, String phone, String role, boolean active) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.sex = sex;
         this.phone = phone;
+        this.role = role;
+        this.active = active;
     }
 
     // Getter và Setter
@@ -71,6 +75,22 @@ public class User {
         this.phone = phone;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     // Override toString() để dễ dàng debug, log thông tin
     @Override
     public String toString() {
@@ -81,6 +101,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", sex='" + sex + '\'' +
                 ", phone='" + phone + '\'' +
+                ", role='" + role + '\'' +
+                ", active=" + active +
                 '}';
     }
 }
