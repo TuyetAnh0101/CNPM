@@ -22,15 +22,13 @@ import com.example.restudy.ui.DangNhap;
 
 public class CaNhanFragment extends Fragment {
 
-    private Button btnLogin;
+    private Button btnLogin, btnLogout;
     private LinearLayout layoutProfile;
     private TextView tvUserName, tvUserEmail, tvUserSex, tvUserPhone, tvUserRole, tvUserActive;
 
     private SharedPreferences sharedPreferences;
 
-    public CaNhanFragment() {
-        // Required empty public constructor
-    }
+    public CaNhanFragment() { }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -38,6 +36,8 @@ public class CaNhanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ca_nhan, container, false);
 
         btnLogin = view.findViewById(R.id.btnLogin);
+        btnLogout = view.findViewById(R.id.btnLogout);  // thêm nút đăng xuất
+
         layoutProfile = view.findViewById(R.id.layoutProfile);
 
         tvUserName = view.findViewById(R.id.tvUserName);
@@ -56,6 +56,16 @@ public class CaNhanFragment extends Fragment {
             startActivity(intent);
         });
 
+        btnLogout.setOnClickListener(v -> {
+            // Xóa dữ liệu đăng nhập trong SharedPreferences
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+
+            // Cập nhật giao diện
+            checkLoginStatus();
+        });
+
         return view;
     }
 
@@ -63,12 +73,11 @@ public class CaNhanFragment extends Fragment {
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         if (isLoggedIn) {
-            // Nếu đã đăng nhập thì lấy thông tin user từ SharedPreferences hoặc từ database
-            // Ở đây giả sử bạn lưu từng trường user vào SharedPreferences
             User user = loadUserFromPrefs();
 
             layoutProfile.setVisibility(View.VISIBLE);
             btnLogin.setVisibility(View.GONE);
+            btnLogout.setVisibility(View.VISIBLE);  // hiện nút đăng xuất
 
             tvUserName.setText(user.getName());
             tvUserEmail.setText("Email: " + user.getEmail());
@@ -80,6 +89,7 @@ public class CaNhanFragment extends Fragment {
         } else {
             layoutProfile.setVisibility(View.GONE);
             btnLogin.setVisibility(View.VISIBLE);
+            btnLogout.setVisibility(View.GONE);  // ẩn nút đăng xuất khi chưa đăng nhập
         }
     }
 
@@ -93,7 +103,6 @@ public class CaNhanFragment extends Fragment {
         user.setPhone(sharedPreferences.getString("userPhone", "Chưa cập nhật"));
         user.setRole(sharedPreferences.getString("userRole", "Người dùng"));
         user.setActive(sharedPreferences.getBoolean("userActive", true));
-        // Mật khẩu không cần lấy ra để hiển thị
 
         return user;
     }
@@ -104,3 +113,5 @@ public class CaNhanFragment extends Fragment {
         checkLoginStatus();
     }
 }
+
+

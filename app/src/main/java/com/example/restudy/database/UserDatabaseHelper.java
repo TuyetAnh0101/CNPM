@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class UserDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "user.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_USERS = "users";
     private static final String USER_ID = "id";
@@ -41,6 +41,18 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
                 USER_ROLE + " TEXT, " +
                 USER_ACTIVE + " INTEGER)";
         db.execSQL(createUsersTable);
+
+        // Thêm tài khoản admin mặc định
+        ContentValues admin = new ContentValues();
+        admin.put(USER_USERNAME, "admin");
+        admin.put(USER_PASSWORD, "admin123");  // Có thể mã hóa mật khẩu sau này
+        admin.put(USER_EMAIL, "admin@gmail.com");
+        admin.put(USER_SEX, "Nam");
+        admin.put(USER_PHONE, "0123456789");
+        admin.put(USER_ROLE, "admin");
+        admin.put(USER_ACTIVE, 1);
+
+        db.insert(TABLE_USERS, null, admin);
     }
 
     @Override
@@ -108,6 +120,29 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    // Lấy User theo username và password (dùng để đăng nhập và lấy role)
+    public User getUserByCredentials(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USERS, null,
+                USER_USERNAME + "=? AND " + USER_PASSWORD + "=? AND " + USER_ACTIVE + "=1",
+                new String[]{username, password}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(USER_ID));
+            @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(USER_USERNAME));
+            @SuppressLint("Range") String pwd = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
+            @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
+            @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
+            @SuppressLint("Range") String sex = cursor.getString(cursor.getColumnIndex(USER_SEX));
+            @SuppressLint("Range") String role = cursor.getString(cursor.getColumnIndex(USER_ROLE));
+            @SuppressLint("Range") boolean active = cursor.getInt(cursor.getColumnIndex(USER_ACTIVE)) == 1;
+
+            cursor.close();
+            return new User(id, name, pwd, email, sex, phone, role, active);
+        }
+        return null;
+    }
+
     // Lấy tất cả người dùng
     public ArrayList<User> getAllUsers() {
         ArrayList<User> userList = new ArrayList<>();
@@ -142,7 +177,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Đăng nhập: kiểm tra username, password và active = 1
+    // Kiểm tra đăng nhập đơn giản (chỉ đúng sai, không lấy info)
     public boolean loginUser(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USERS,

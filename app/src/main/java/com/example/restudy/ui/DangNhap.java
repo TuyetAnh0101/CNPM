@@ -12,9 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.restudy.AdminActivity;
 import com.example.restudy.MainActivity;
 import com.example.restudy.R;
-import com.example.restudy.database.UserDatabaseHelper;  // đổi import sang đúng thư viện bạn gửi
+import com.example.restudy.database.UserDatabaseHelper;
 import com.example.restudy.model.User;
 
 public class DangNhap extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class DangNhap extends AppCompatActivity {
     private Button btLogin, btRegister;
     private TextView tvForgotPassword;
     private SharedPreferences sharedPreferences;
-    private UserDatabaseHelper userDatabaseHelper;  // đổi sang UserDatabaseHelper
+    private UserDatabaseHelper userDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class DangNhap extends AppCompatActivity {
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        userDatabaseHelper = new UserDatabaseHelper(this);  // khởi tạo lớp database helper
+        userDatabaseHelper = new UserDatabaseHelper(this);
 
         checkLoginStatus();
 
@@ -56,14 +57,14 @@ public class DangNhap extends AppCompatActivity {
     private void checkLoginStatus() {
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
         if (isLoggedIn) {
-            Intent i = new Intent(DangNhap.this, MainActivity.class);
-            startActivity(i);
+            String role = sharedPreferences.getString("userRole", "user");
+            redirectToRoleActivity(role);
             finish();
         }
     }
 
     private void localLogin() {
-        String username = email_EditText.getText().toString().trim();  // đổi tên biến cho hợp với username
+        String username = email_EditText.getText().toString().trim();
         String password = password_EditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(username)) {
@@ -76,21 +77,24 @@ public class DangNhap extends AppCompatActivity {
             return;
         }
 
-        // Dùng hàm loginUser trong UserDatabaseHelper
         boolean loginSuccess = userDatabaseHelper.loginUser(username, password);
 
         if (loginSuccess) {
-            // Lấy đối tượng User sau khi đăng nhập đúng
             User user = userDatabaseHelper.getUser(username);
             if (user != null) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isLoggedIn", true);
                 editor.putString("userEmail", user.getEmail());
                 editor.putString("userName", user.getName());
+
+                // Giả sử User có phương thức getRole() trả về "admin" hoặc "user"
+                String role = user.getRole() != null ? user.getRole() : "user";
+                editor.putString("userRole", role);
+
                 editor.apply();
 
-                Intent intent = new Intent(DangNhap.this, MainActivity.class);
-                startActivity(intent);
+                redirectToRoleActivity(role);
+
                 finish();
             } else {
                 Toast.makeText(this, "Lỗi lấy thông tin người dùng!", Toast.LENGTH_SHORT).show();
@@ -98,5 +102,17 @@ public class DangNhap extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Username hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void redirectToRoleActivity(String role) {
+        Intent intent;
+        if ("admin".equalsIgnoreCase(role)) {
+            // Màn hình dành cho admin, bạn tạo AdminActivity nếu chưa có
+            intent = new Intent(DangNhap.this, AdminActivity.class);
+        } else {
+            // Màn hình dành cho user bình thường
+            intent = new Intent(DangNhap.this, MainActivity.class);
+        }
+        startActivity(intent);
     }
 }
