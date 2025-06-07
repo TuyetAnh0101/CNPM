@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="8dp"
+    android:padding="12dp"
+    android:clickable="true"
+    android:elevation="6dp"
+    android:layout_gravity="center"
+    android:backgroundTint="#FFFFFF">
+
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_background"
+        android:contentDescription="Topic Image" />
+
+    <Button
+        android:id="@+id/itemButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Item Button"
+        android:backgroundTint="#ED8B6E"
+        android:padding="12dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:elevation="4dp"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/ivEdit"
+            app:srcCompat="@android:drawable/ic_menu_edit"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:contentDescription="Edit" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/ivDelete"
+            app:srcCompat="@android:drawable/ic_menu_delete"
+            android:clickable="true"
+            android:contentDescription="Delete" />
+    </LinearLayout>
+</LinearLayout>
