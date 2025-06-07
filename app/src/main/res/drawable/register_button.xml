@@ -1,0 +1,13 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+                android:angle="45"
+                />
+            <stroke
+                android:width="2dp"
+                android:color="#3333D1"/> <!-- Viền màu xanh -->
+            <corners android:radius="25dp"/>
+        </shape>
+    </item>
+</selector>
