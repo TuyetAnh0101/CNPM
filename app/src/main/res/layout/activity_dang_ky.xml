@@ -5,6 +5,120 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.DangKy">
+    <ImageButton
+        android:id="@+id/imbBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="12dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:contentDescription="Quay lại"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="ĐĂNG KÝ"
+        android:textColor="#E91E63"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/imbBack" />
+
+    <!-- Tên người dùng -->
+    <EditText
+        android:id="@+id/edUserNameRe"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:hint="Tên của bạn"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+
+    <!-- Mật khẩu -->
+    <EditText
+        android:id="@+id/password_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Mật khẩu"
+        android:inputType="textPassword"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/edUserNameRe" />
+
+    <!-- Xác nhận mật khẩu -->
+    <EditText
+        android:id="@+id/confirmPassword_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Xác nhận mật khẩu"
+        android:inputType="textPassword"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/password_EditText" />
+
+    <!-- Email -->
+    <EditText
+        android:id="@+id/email_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/confirmPassword_EditText" />
+
+    <!-- Số điện thoại -->
+    <EditText
+        android:id="@+id/edPhone"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Số điện thoại"
+        android:inputType="phone"
+        android:background="@drawable/edittext_background"
+        app:layout_constraintTop_toBottomOf="@id/email_EditText" />
+
+    <!-- Giới tính -->
+    <TextView
+        android:id="@+id/tv_sex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Giới tính"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/edPhone" />
+
+    <RadioGroup
+        android:id="@+id/rgSex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tv_sex">
+        <RadioButton
+            android:id="@+id/rbMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nam"
+            android:checked="true" />
+        <RadioButton
+            android:id="@+id/rbFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nữ" />
+    </RadioGroup>
+
+    <!-- Nút đăng ký -->
+    <Button
+        android:id="@+id/btRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="Đăng ký"
+        app:layout_constraintTop_toBottomOf="@id/rgSex"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
