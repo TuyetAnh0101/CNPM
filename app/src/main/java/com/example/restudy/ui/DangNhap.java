@@ -12,9 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.restudy.AdminActivity;
 import com.example.restudy.MainActivity;
 import com.example.restudy.R;
+
+import com.example.restudy.UserHomeActivity;
 import com.example.restudy.database.UserDatabaseHelper;
 import com.example.restudy.model.User;
 
@@ -87,7 +88,6 @@ public class DangNhap extends AppCompatActivity {
                 editor.putString("userEmail", user.getEmail());
                 editor.putString("userName", user.getName());
 
-                // Giả sử User có phương thức getRole() trả về "admin" hoặc "user"
                 String role = user.getRole() != null ? user.getRole() : "user";
                 editor.putString("userRole", role);
 
@@ -107,11 +107,9 @@ public class DangNhap extends AppCompatActivity {
     private void redirectToRoleActivity(String role) {
         Intent intent;
         if ("admin".equalsIgnoreCase(role)) {
-            // Màn hình dành cho admin, bạn tạo AdminActivity nếu chưa có
-            intent = new Intent(DangNhap.this, AdminActivity.class);
-        } else {
-            // Màn hình dành cho user bình thường
             intent = new Intent(DangNhap.this, MainActivity.class);
+        } else {
+            intent = new Intent(DangNhap.this, UserHomeActivity.class);
         }
         startActivity(intent);
     }

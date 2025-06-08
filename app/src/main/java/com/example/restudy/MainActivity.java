@@ -10,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.restudy.Fragment.HomeFragment;
-import com.example.restudy.Fragment.DangBanFragment;
+import com.example.restudy.UserFragment.UserHomeFragment;
 import com.example.restudy.Fragment.CaNhanFragment;
+import com.example.restudy.model.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -23,11 +24,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Tạm set đăng nhập và vai trò admin để test
+        SessionManager.login(true);
+
         mnBottom = findViewById(R.id.bottomNav);
 
-        // Load HomeFragment lần đầu tiên khi activity được tạo
-        loadFragment(new HomeFragment());
-
+        // Load fragment mặc định theo trạng thái đăng nhập và role
+        if (!SessionManager.isLoggedIn()) {
+            loadFragment(new UserHomeFragment());  // Chưa đăng nhập thì hiển thị giao diện user
+        } else {
+            if (SessionManager.isAdmin()) {
+                loadFragment(new HomeFragment());  // Admin thì hiển thị HomeFragment
+            } else {
+                loadFragment(new UserHomeFragment());  // User thường thì UserHomeFragment
+            }
+        }
         // Thiết lập ActionBar với nút Back
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -43,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // Nếu bạn không dùng backstack cho bottom nav, có thể gọi finish() luôn
             finish();
             return true;
         }
@@ -51,32 +62,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private NavigationBarView.OnItemSelectedListener getItemBottomListener() {
-        return new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment selectedFragment = null;
-                int id = item.getItemId();
+        return item -> {
+            Fragment selectedFragment = null;
 
-                if (id == R.id.mnhome) {
-                    selectedFragment = new HomeFragment();
-                } else if (id == R.id.mndangban) {
-                    selectedFragment = new DangBanFragment();
-                } else if (id == R.id.mncanhan) {
-                    selectedFragment = new CaNhanFragment();
+            if (item.getItemId() == R.id.mnhome) {
+                if (!SessionManager.isLoggedIn()) {
+                    selectedFragment = new UserHomeFragment();
                 } else {
-                    return false;
+                    if (SessionManager.isAdmin()) {
+                        selectedFragment = new HomeFragment();
+                    } else {
+                        selectedFragment = new UserHomeFragment();
+                    }
                 }
-
-                if (selectedFragment != null) {
-                    loadFragment(selectedFragment);
-                    return true;
-                }
-
-                return false;
+            } else if (item.getItemId() == R.id.mncanhan) {
+                selectedFragment = new CaNhanFragment();
             }
+
+            if (selectedFragment != null) {
+                loadFragment(selectedFragment);
+                return true;
+            }
+            return false;
         };
     }
-    // Load fragment mà KHÔNG thêm vào backstack
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()

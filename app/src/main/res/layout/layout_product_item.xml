@@ -57,14 +57,14 @@
             android:ellipsize="end"
             android:gravity="center"/>
 
-        <!-- Layout ngang chứa 2 nút Sửa và Xóa -->
+        <!-- Layout ngang chứa 3 nút Sửa, Xóa và Thêm -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
             android:paddingTop="8dp"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <Button
                 android:id="@+id/btnEdit"
@@ -86,19 +86,21 @@
                 android:textAllCaps="false"
                 android:backgroundTint="#F44336"
                 android:textColor="#FFFFFF"
-                android:layout_marginStart="4dp"/>
-        </LinearLayout>
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"/>
 
-        <!-- Nút Thêm vào giỏ hàng -->
-        <Button
-            android:id="@+id/btnAddToCart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Thêm vào giỏ hàng"
-            android:textAllCaps="false"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="8dp"/>
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thêm"
+                android:textAllCaps="false"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="4dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

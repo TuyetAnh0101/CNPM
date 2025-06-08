@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".Fragment.HomeFragment">
+    android:id="@+id/fragment_container"
+    tools:context=".UserFragment.UserHomeFragment">
 
-    <!-- Tiêu đề -->
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
@@ -24,7 +24,6 @@
         app:layout_constraintEnd_toStartOf="@id/cartIcon"
         app:layout_constraintBottom_toBottomOf="@id/cartIcon" />
 
-    <!-- Icon giỏ hàng -->
     <ImageView
         android:id="@+id/cartIcon"
         android:layout_width="28dp"
@@ -36,7 +35,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Thanh tìm kiếm -->
     <LinearLayout
         android:id="@+id/searchBar"
         android:layout_width="0dp"
@@ -70,54 +68,15 @@
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
-    <!-- Layout quản lý admin (thay thế RecyclerView) -->
-    <ScrollView
-        android:id="@+id/scrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
-        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/searchBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:id="@+id/adminLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="24dp">
-
-            <Button
-                android:id="@+id/btnUserManager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Quản lý người dùng"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/btnTopicManager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Quản lý sản phẩm"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/btnSentenceManager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Quản lý liên hệ"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/btnExerciseManager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Quản lý đánh giá"
-                android:layout_marginBottom="16dp" />
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
