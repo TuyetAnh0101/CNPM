@@ -1,6 +1,8 @@
 package com.example.restudy.model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int id;
     private String name;
     private double price;
@@ -12,7 +14,7 @@ public class Product {
     private String createdAt;
     private String updatedAt;
 
-    public Product(int id, String name, double price, String description, String image,
+    public Product (int id, String name, double price, String description, String image,
                    int categoryId, int stock, boolean status, String createdAt, String updatedAt) {
         this.id = id;
         this.name = name;

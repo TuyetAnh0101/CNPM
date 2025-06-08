@@ -38,6 +38,8 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
                 Utils.PRODUCT_UPDATED_AT + " TEXT" +
                 ")";
         db.execSQL(createProductsTable);
+
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 
 public class Utils {
     public static final String TABLE_PRODUCTS = "products";
@@ -28,15 +29,17 @@ public class Utils {
 
     public static Bitmap convertToBitmapFromAssets(Context context, String nameImage) {
         AssetManager assetManager = context.getAssets();
-        try (InputStream inputStream = assetManager.open("image/" + nameImage)) {
-            return BitmapFactory.decodeStream(inputStream);
+        try {
+            InputStream inputStream = assetManager.open("image/"+nameImage);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
     public static String formatPrice(double price) {
-        return String.format("%,.0f đ", price);
+        DecimalFormat formatter = new DecimalFormat("#,###.## đ");
+        return formatter.format(price);
     }
-
 }

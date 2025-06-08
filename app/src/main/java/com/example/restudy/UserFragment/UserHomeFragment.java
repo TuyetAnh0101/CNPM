@@ -1,66 +1,124 @@
 package com.example.restudy.UserFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.example.restudy.Detail.ProductDetailActivity;
 import com.example.restudy.R;
+import com.example.restudy.adt.UserProductAdapter;
+import com.example.restudy.data.ProductDataQuery;
+import com.example.restudy.model.Product;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserHomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class UserHomeFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class UserHomeFragment extends Fragment implements UserProductAdapter.OnItemClickListener {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView recyclerView;
+    private UserProductAdapter adapter;
+    private List<Product> productList;
+
+    private EditText searchEditText;
+    private ImageView searchIcon;
+
+    private String userRole = "user"; // Mặc định là user
 
     public UserHomeFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserHomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserHomeFragment newInstance(String param1, String param2) {
+    public static UserHomeFragment newInstance(String role) {
         UserHomeFragment fragment = new UserHomeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString("role", role);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            userRole = getArguments().getString("role", "user");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_home, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+        searchEditText = view.findViewById(R.id.search_edit_text);
+        searchIcon = view.findViewById(R.id.searchIcon);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+
+        loadProducts();
+
+        // Tạo sự kiện tìm kiếm khi nhấn icon search
+        searchIcon.setOnClickListener(v -> {
+            String keyword = searchEditText.getText().toString().trim();
+            filterProducts(keyword);
+        });
+
+        return view;
+    }
+
+    private void loadProducts() {
+        productList = ProductDataQuery.getAll(getContext());
+        adapter = new UserProductAdapter(getContext(), productList, this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void filterProducts(String keyword) {
+        if (keyword.isEmpty()) {
+            adapter.updateData(productList); // Hiện tất cả sản phẩm nếu tìm trống
+            return;
+        }
+        List<Product> filtered = new ArrayList<>();
+        for (Product p : productList) {
+            if (p.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                filtered.add(p);
+            }
+        }
+        adapter.updateData(filtered);
+    }
+
+    @Override
+    public void onItemClick(Product product) {
+        // Xử lý click mở chi tiết sản phẩm
+        openProductDetail(product);
+    }
+
+    private void openProductDetail(Product product) {
+        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+        intent.putExtra("product", product); // Product phải implements Serializable (bạn đã làm rồi)
+        startActivity(intent);
+    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
+        if ("admin".equals(userRole)) {
+            inflater.inflate(R.menu.bottom_menu, menu);
+        } else {
+            inflater.inflate(R.menu.menu, menu);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
