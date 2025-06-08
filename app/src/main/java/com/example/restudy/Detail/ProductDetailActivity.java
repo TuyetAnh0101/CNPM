@@ -15,8 +15,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.restudy.R;
-import com.example.restudy.model.Product;
 import com.example.restudy.Utils;
+import com.example.restudy.model.CartManager;
+import com.example.restudy.model.Product;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private Button buttonAddToCart, buttonBuyNow;
 
-    private Product currentProduct; // Lưu product hiện tại để dùng khi click nút
+    private Product currentProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,18 +67,22 @@ public class ProductDetailActivity extends AppCompatActivity {
             productName.setText(R.string.hello_blank_fragment);
         }
 
-        // Xử lý nút Thêm vào giỏ hàng
+        // Thêm sản phẩm vào giỏ hàng
         buttonAddToCart.setOnClickListener(v -> {
-            // TODO: Thêm sản phẩm vào giỏ hàng
-            Toast.makeText(this, currentProduct.getName() + " đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Add to cart clicked: " + currentProduct.getName());
+            if (currentProduct != null) {
+                CartManager.getInstance().addProduct(currentProduct);
+                Toast.makeText(this, currentProduct.getName() + " đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Add to cart clicked: " + currentProduct.getName());
+            }
         });
 
         // Xử lý nút Mua ngay
         buttonBuyNow.setOnClickListener(v -> {
-            // TODO: Xử lý mua ngay (ví dụ chuyển sang trang thanh toán)
-            Toast.makeText(this, "Mua ngay: " + currentProduct.getName(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Buy now clicked: " + currentProduct.getName());
+            if (currentProduct != null) {
+                // TODO: chuyển sang trang thanh toán hoặc xử lý mua ngay
+                Toast.makeText(this, "Mua ngay: " + currentProduct.getName(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Buy now clicked: " + currentProduct.getName());
+            }
         });
     }
 

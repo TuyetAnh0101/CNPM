@@ -5,9 +5,13 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.restudy.model.Product;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
     public static final String TABLE_PRODUCTS = "products";
@@ -26,6 +30,7 @@ public class Utils {
     public static final String TABLE_CATEGORY = "OldStuffStore";
     public static final String CATEGORY_ID = "id";
     public static final String CATEGORY_NAME = "name";
+    public static List<Product> cartList = new ArrayList<>();
 
     public static Bitmap convertToBitmapFromAssets(Context context, String nameImage) {
         AssetManager assetManager = context.getAssets();

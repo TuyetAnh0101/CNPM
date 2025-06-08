@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.restudy.Detail.ProductDetailActivity;
+import com.example.restudy.Manager.CartActivity;
 import com.example.restudy.R;
 import com.example.restudy.adt.UserProductAdapter;
 import com.example.restudy.data.ProductDataQuery;
@@ -67,6 +67,13 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
         searchEditText = view.findViewById(R.id.search_edit_text);
         searchIcon = view.findViewById(R.id.searchIcon);
 
+        // Bắt sự kiện cho icon giỏ hàng trong layout
+        ImageView cartIcon = view.findViewById(R.id.cartIcon);
+        cartIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CartActivity.class);
+            startActivity(intent);
+        });
+
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         loadProducts();
@@ -102,15 +109,16 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
 
     @Override
     public void onItemClick(Product product) {
-        // Xử lý click mở chi tiết sản phẩm
         openProductDetail(product);
     }
 
     private void openProductDetail(Product product) {
         Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-        intent.putExtra("product", product); // Product phải implements Serializable (bạn đã làm rồi)
+        intent.putExtra("product", product);
         startActivity(intent);
     }
+
+    // Nếu bạn vẫn muốn menu toolbar (cho admin/user)
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
