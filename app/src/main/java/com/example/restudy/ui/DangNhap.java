@@ -14,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.restudy.MainActivity;
 import com.example.restudy.R;
-
 import com.example.restudy.UserHomeActivity;
 import com.example.restudy.database.UserDatabaseHelper;
+import com.example.restudy.model.SessionManager;
 import com.example.restudy.model.User;
 
 public class DangNhap extends AppCompatActivity {
@@ -92,6 +92,9 @@ public class DangNhap extends AppCompatActivity {
                 editor.putString("userRole", role);
 
                 editor.apply();
+
+                // Đồng bộ trạng thái login với SessionManager
+                SessionManager.login(this, "admin".equalsIgnoreCase(role));
 
                 redirectToRoleActivity(role);
 

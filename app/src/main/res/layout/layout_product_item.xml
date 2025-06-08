@@ -57,14 +57,14 @@
             android:ellipsize="end"
             android:gravity="center"/>
 
-        <!-- Layout ngang chứa 3 nút Sửa, Xóa và Thêm -->
+        <!-- Layout ngang chứa 2 nút Sửa và Xóa -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
             android:paddingTop="8dp"
-            android:weightSum="3">
+            android:weightSum="2">
 
             <Button
                 android:id="@+id/btnEdit"
@@ -85,18 +85,6 @@
                 android:text="Xóa"
                 android:textAllCaps="false"
                 android:backgroundTint="#F44336"
-                android:textColor="#FFFFFF"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"/>
-
-            <Button
-                android:id="@+id/btnAdd"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Thêm"
-                android:textAllCaps="false"
-                android:backgroundTint="#4CAF50"
                 android:textColor="#FFFFFF"
                 android:layout_marginStart="4dp"/>
 

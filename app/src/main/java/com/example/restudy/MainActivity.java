@@ -25,21 +25,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Tạm set đăng nhập và vai trò admin để test
-        SessionManager.login(true);
-
         mnBottom = findViewById(R.id.bottomNav);
 
         // Load fragment mặc định theo trạng thái đăng nhập và role
-        if (!SessionManager.isLoggedIn()) {
+        if (!SessionManager.isLoggedIn(this)) {
             loadFragment(new UserHomeFragment());  // Chưa đăng nhập thì hiển thị giao diện user
         } else {
-            if (SessionManager.isAdmin()) {
+            if (SessionManager.isAdmin(this)) {
                 loadFragment(new HomeFragment());  // Admin thì hiển thị HomeFragment
             } else {
                 loadFragment(new UserHomeFragment());  // User thường thì UserHomeFragment
             }
         }
+
         // Thiết lập ActionBar với nút Back
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -66,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.mnhome) {
-                if (!SessionManager.isLoggedIn()) {
+                if (!SessionManager.isLoggedIn(this)) {
                     selectedFragment = new UserHomeFragment();
                 } else {
-                    if (SessionManager.isAdmin()) {
+                    if (SessionManager.isAdmin(this)) {
                         selectedFragment = new HomeFragment();
                     } else {
                         selectedFragment = new UserHomeFragment();
@@ -86,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         };
     }
+
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
