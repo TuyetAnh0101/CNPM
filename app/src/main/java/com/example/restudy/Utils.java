@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.example.restudy.model.Product;
 
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
+    // Tên bảng
     public static final String TABLE_PRODUCTS = "products";
+    public static final String TABLE_CATEGORY = "OldStuffStore";
 
     // Các cột trong bảng products
     public static final String PRODUCT_ID = "id";
@@ -27,15 +30,20 @@ public class Utils {
     public static final String PRODUCT_STATUS = "status";
     public static final String PRODUCT_CREATED_AT = "created_at";
     public static final String PRODUCT_UPDATED_AT = "updated_at";
-    public static final String TABLE_CATEGORY = "OldStuffStore";
+
+    // Các cột trong bảng category
     public static final String CATEGORY_ID = "id";
     public static final String CATEGORY_NAME = "name";
+
+    // Danh sách sản phẩm trong giỏ hàng
     public static List<Product> cartList = new ArrayList<>();
+
 
     public static Bitmap convertToBitmapFromAssets(Context context, String nameImage) {
         AssetManager assetManager = context.getAssets();
         try {
-            InputStream inputStream = assetManager.open("image/"+nameImage);
+            // Sửa lại đường dẫn để đảm bảo có dấu gạch chéo trước tên ảnh
+            InputStream inputStream = assetManager.open("images/" + nameImage);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             return bitmap;
         } catch (IOException e) {

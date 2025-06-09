@@ -38,17 +38,24 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return new ProductViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
 
-        holder.imgProduct.setImageBitmap(Utils.convertToBitmapFromAssets(context, product.getImage()));
+        holder.imgProduct.setImageDrawable(null); // Xóa ảnh cũ trước khi set mới
+        Bitmap bitmap = Utils.convertToBitmapFromAssets(context, product.getImage());
+        if (bitmap != null) {
+            holder.imgProduct.setImageBitmap(bitmap);
+        } else {
+            holder.imgProduct.setImageResource(R.drawable.person);
+        }
+
 
         holder.tvProductName.setText(product.getName());
-        holder.tvProductPrice.setText(Utils.formatPrice(product.getPrice())); // Format giá từ Utils
+        holder.tvProductPrice.setText(Utils.formatPrice(product.getPrice()));
         holder.tvProductDescription.setText(product.getDescription());
 
-        // Các sự kiện click
         holder.btnEdit.setOnClickListener(v -> {
             if (callback != null) {
                 callback.onProductEdit(position);
@@ -67,6 +74,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -87,6 +95,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
+    }
+    public void updateList(List<Product> newList) {
+        this.productList = newList;
+        notifyDataSetChanged();
     }
 
     public interface ProductCallback {

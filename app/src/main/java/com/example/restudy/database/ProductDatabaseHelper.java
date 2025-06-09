@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ProductDatabaseHelper extends SQLiteOpenHelper {
 
     public ProductDatabaseHelper(Context context) {
-        super(context, "product.db", null, 1);
+        super(context, "product.db", null, 2);
     }
 
     @Override
