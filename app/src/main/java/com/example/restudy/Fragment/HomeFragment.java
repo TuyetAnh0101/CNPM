@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.restudy.Manager.CategoryManagerActivity;
+import com.example.restudy.Manager.PackagesManagerActivity;
 import com.example.restudy.Manager.UserManagerActivity;
 import com.example.restudy.R;
 import com.example.restudy.Manager.ProductManagerActivity;
@@ -31,7 +32,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Ánh xạ các button
-        View btnUserManager = view.findViewById(R.id.btnUserManager);
+        View btnPackagesManager = view.findViewById(R.id.btnPackagesManager);
         View btnProductManager = view.findViewById(R.id.btnProductManager);
         View btnCategoryManager = view.findViewById(R.id.btnCategoryManager);
         View btnExerciseManager = view.findViewById(R.id.btnExerciseManager);
@@ -42,8 +43,8 @@ public class HomeFragment extends Fragment {
        //     startActivity(intent);
        // });
 
-        btnUserManager.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), UserManagerActivity.class);
+        btnPackagesManager.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), PackagesManagerActivity.class);
             startActivity(intent);
         });
         btnProductManager.setOnClickListener(v -> {

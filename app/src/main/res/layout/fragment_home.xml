@@ -43,10 +43,10 @@
             android:paddingBottom="24dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnUserManager"
+                android:id="@+id/btnPackagesManager"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Quản lý tài khoản"
+                android:text="Quản lý gói dịch vụ"
                 android:textSize="16sp"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="20dp"
@@ -79,7 +79,7 @@
                 android:id="@+id/btnExerciseManager"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Quản lý đánh giá"
+                android:text="Quản lý các gói đăng ký"
                 android:textSize="16sp"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="20dp"

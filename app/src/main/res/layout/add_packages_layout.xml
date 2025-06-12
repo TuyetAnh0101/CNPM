@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên gói"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/edtPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Giá (VNĐ)"
+            android:inputType="number"
+            android:padding="12dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/edtDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Thời hạn (ngày)"
+            android:inputType="number"
+            android:padding="12dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/edtMaxPosts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số bài đăng tối đa"
+            android:inputType="number"
+            android:padding="12dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Có thể ghim bài viết?"
+                android:layout_weight="1"
+                android:textSize="16sp" />
+
+            <Switch
+                android:id="@+id/swCanPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

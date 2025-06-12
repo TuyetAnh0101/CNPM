@@ -19,8 +19,7 @@ public class CategoryDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_CATEGORY = "category";
     private static final String CATEGORY_ID = "id";
     private static final String CATEGORY_NAME = "name";
-    private static final String CATEGORY_PRICE = "price"; // Thêm cột price
-
+    private static final String CATEGORY_PRICE = "price";
     public CategoryDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
