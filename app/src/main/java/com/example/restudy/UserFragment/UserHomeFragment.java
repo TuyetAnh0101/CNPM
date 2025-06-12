@@ -129,4 +129,5 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 }

@@ -75,6 +75,26 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return list;
     }
+    public int updateProduct(int id, String name, double price, String description, String image,
+                             int categoryId, int stock, int status, String updatedAt) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Utils.PRODUCT_NAME, name);
+        values.put(Utils.PRODUCT_PRICE, price);
+        values.put(Utils.PRODUCT_DESCRIPTION, description);
+        values.put(Utils.PRODUCT_IMAGE, image);
+        values.put(Utils.PRODUCT_CATEGORY_ID, categoryId);
+        values.put(Utils.PRODUCT_STOCK, stock);
+        values.put(Utils.PRODUCT_STATUS, status);
+        values.put(Utils.PRODUCT_UPDATED_AT, updatedAt);
+
+        // Cập nhật sản phẩm theo id
+        int result = db.update(Utils.TABLE_PRODUCTS, values, Utils.PRODUCT_ID + " = ?", new String[]{String.valueOf(id)});
+        db.close();
+        return result;
+    }
+
 
     public ArrayList<String> getAllCategories() {
         ArrayList<String> categories = new ArrayList<>();

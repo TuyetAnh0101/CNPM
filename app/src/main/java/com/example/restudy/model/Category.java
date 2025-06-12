@@ -3,10 +3,12 @@ package com.example.restudy.model;
 public class Category {
     int id;
     String name;
+    private double price;
 
-    public Category(int id, String name) {
+    public Category(int id, String name, double price) {
         this.id = id;
         this.name = name;
+        this.price=price;
     }
     @Override
     public String toString() {
@@ -28,4 +30,6 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 }

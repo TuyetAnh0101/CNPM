@@ -1,29 +1,31 @@
 package com.example.restudy.UserFragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog; // import AlertDialog
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.restudy.R;
 import com.example.restudy.model.User;
 import com.example.restudy.ui.DangNhap;
+import com.google.android.material.card.MaterialCardView; // **THÊM IMPORT**
 
 public class UserFragment extends Fragment {
 
     private Button btnLogin, btnLogout;
-    private LinearLayout layoutProfile;
+    private MaterialCardView layoutProfile; // **ĐỔI KIỂU**
     private TextView tvUserName, tvUserEmail, tvUserSex, tvUserPhone, tvUserRole, tvUserActive;
 
     private SharedPreferences sharedPreferences;
@@ -38,7 +40,7 @@ public class UserFragment extends Fragment {
         btnLogin = view.findViewById(R.id.btnLogin);
         btnLogout = view.findViewById(R.id.btnLogout);
 
-        layoutProfile = view.findViewById(R.id.layoutProfile);
+        layoutProfile = view.findViewById(R.id.layoutProfile); // **ĐỔI KIỂU**
 
         tvUserName = view.findViewById(R.id.tvUserName);
         tvUserEmail = view.findViewById(R.id.tvUserEmail);
@@ -56,15 +58,30 @@ public class UserFragment extends Fragment {
             startActivity(intent);
         });
 
-        btnLogout.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
-
-            checkLoginStatus();
-        });
+        btnLogout.setOnClickListener(v -> showLogoutConfirmationDialog());
 
         return view;
+    }
+
+    private void showLogoutConfirmationDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Xác nhận đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
+                .setPositiveButton("Có", (dialog, which) -> {
+                    logoutUser();
+                })
+                .setNegativeButton("Không", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .create()
+                .show();
+    }
+
+    private void logoutUser() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        checkLoginStatus();
     }
 
     private void checkLoginStatus() {
@@ -103,6 +120,7 @@ public class UserFragment extends Fragment {
 
         return user;
     }
+
     @Override
     public void onResume() {
         super.onResume();

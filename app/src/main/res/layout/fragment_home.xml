@@ -2,82 +2,34 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".Fragment.HomeFragment">
+    android:background="#FFFFFF">
 
     <!-- Tiêu đề -->
     <TextView
         android:id="@+id/title"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ReStudy"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="#222222"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cartIcon"
-        app:layout_constraintBottom_toBottomOf="@id/cartIcon" />
-
-    <!-- Icon giỏ hàng -->
-    <ImageView
-        android:id="@+id/cartIcon"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:src="@drawable/cart"
-        android:contentDescription="Cart"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Thanh tìm kiếm -->
-    <LinearLayout
-        android:id="@+id/searchBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_edittext"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <EditText
-            android:id="@+id/search_edit_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Tìm kiếm"
-            android:background="@android:color/transparent"
-            android:textSize="16sp"
-            android:paddingStart="8dp"
-            android:inputType="text" />
-
-        <ImageView
-            android:id="@+id/searchIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_search"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <!-- Layout quản lý admin (thay thế RecyclerView) -->
+    <!-- Layout quản lý admin -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/searchBar"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -88,36 +40,63 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="24dp">
+            android:paddingBottom="24dp">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnUserManager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Quản lý người dùng"
-                android:layout_marginBottom="16dp" />
+                android:layout_height="56dp"
+                android:text="Quản lý tài khoản"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="20dp"
+                app:backgroundTint="#00796B"
+                app:cornerRadius="12dp" />
 
-            <Button
-                android:id="@+id/btnTopicManager"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnProductManager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:text="Quản lý sản phẩm"
-                android:layout_marginBottom="16dp" />
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="20dp"
+                app:backgroundTint="#00796B"
+                app:cornerRadius="12dp" />
 
-            <Button
-                android:id="@+id/btnSentenceManager"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCategoryManager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Quản lý liên hệ"
-                android:layout_marginBottom="16dp" />
+                android:layout_height="56dp"
+                android:text="Quản lý danh mục"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="20dp"
+                app:backgroundTint="#00796B"
+                app:cornerRadius="12dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnExerciseManager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:text="Quản lý đánh giá"
-                android:layout_marginBottom="16dp" />
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="20dp"
+                app:backgroundTint="#00796B"
+                app:cornerRadius="12dp" />
+
+            <!-- Nút thống kê doanh thu -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRevenueStats"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Thống kê doanh thu"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="20dp"
+                app:backgroundTint="#00796B"
+                app:cornerRadius="12dp" />
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

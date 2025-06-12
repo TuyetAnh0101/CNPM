@@ -13,12 +13,13 @@ import java.util.ArrayList;
 public class CategoryDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "OldStuffStore.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Tên bảng và các cột
     private static final String TABLE_CATEGORY = "category";
     private static final String CATEGORY_ID = "id";
     private static final String CATEGORY_NAME = "name";
+    private static final String CATEGORY_PRICE = "price"; // Thêm cột price
 
     public CategoryDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,40 +27,27 @@ public class CategoryDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Tạo bảng category chỉ với id và name
+        // Tạo bảng category với cột id, name và price
         String createTable = "CREATE TABLE " + TABLE_CATEGORY + " (" +
                 CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                CATEGORY_NAME + " TEXT)";
+                CATEGORY_NAME + " TEXT, " +
+                CATEGORY_PRICE + " REAL)";
         db.execSQL(createTable);
-
-        // Thêm danh mục mặc định
-        insertDefaultCategories(db);
-    }
-
-    private void insertDefaultCategories(SQLiteDatabase db) {
-        insertCategory(db, "Điện tử");
-        insertCategory(db, "Nội thất");
-        insertCategory(db, "Sách");
-        insertCategory(db, "Thời trang");
-    }
-
-    private void insertCategory(SQLiteDatabase db, String name) {
-        ContentValues values = new ContentValues();
-        values.put(CATEGORY_NAME, name);
-        db.insert(TABLE_CATEGORY, null, values);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Xóa bảng cũ nếu tồn tại và tạo lại
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
         onCreate(db);
     }
 
     // Thêm danh mục mới
-    public void addCategory(String name) {
+    public void addCategory(String name, double price) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(CATEGORY_NAME, name);
+        values.put(CATEGORY_PRICE, price);
         db.insert(TABLE_CATEGORY, null, values);
         db.close();
     }
@@ -74,7 +62,8 @@ public class CategoryDatabaseHelper extends SQLiteOpenHelper {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(CATEGORY_ID));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(CATEGORY_NAME));
-                categories.add(new Category(id, name));
+                double price = cursor.getDouble(cursor.getColumnIndexOrThrow(CATEGORY_PRICE));
+                categories.add(new Category(id, name, price));
             } while (cursor.moveToNext());
             cursor.close();
         }
@@ -88,6 +77,7 @@ public class CategoryDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(CATEGORY_NAME, category.getName());
+        values.put(CATEGORY_PRICE, category.getPrice());
         db.update(TABLE_CATEGORY, values, CATEGORY_ID + " = ?", new String[]{String.valueOf(category.getId())});
         db.close();
     }

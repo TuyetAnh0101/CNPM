@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.restudy.Manager.CategoryManagerActivity;
+import com.example.restudy.Manager.UserManagerActivity;
 import com.example.restudy.R;
 import com.example.restudy.Manager.ProductManagerActivity;
 
@@ -30,8 +32,8 @@ public class HomeFragment extends Fragment {
 
         // Ánh xạ các button
         View btnUserManager = view.findViewById(R.id.btnUserManager);
-        View btnTopicManager = view.findViewById(R.id.btnTopicManager);
-        View btnSentenceManager = view.findViewById(R.id.btnSentenceManager);
+        View btnProductManager = view.findViewById(R.id.btnProductManager);
+        View btnCategoryManager = view.findViewById(R.id.btnCategoryManager);
         View btnExerciseManager = view.findViewById(R.id.btnExerciseManager);
 
         // Xử lý sự kiện click
@@ -40,10 +42,19 @@ public class HomeFragment extends Fragment {
        //     startActivity(intent);
        // });
 
-        btnTopicManager.setOnClickListener(v -> {
+        btnUserManager.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), UserManagerActivity.class);
+            startActivity(intent);
+        });
+        btnProductManager.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ProductManagerActivity.class);
             startActivity(intent);
         });
+        btnCategoryManager.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), CategoryManagerActivity.class);
+            startActivity(intent);
+        });
+
 
       //  btnSentenceManager.setOnClickListener(v -> {
         //    Intent intent = new Intent(getActivity(), ContactManagerActivity.class);
