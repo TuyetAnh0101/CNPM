@@ -19,9 +19,6 @@
             android:name=".Manager.PackagesManagerActivity"
             android:exported="false" />
         <activity
-            android:name=".Manager.UserManager"
-            android:exported="false" />
-        <activity
             android:name=".Manager.UserManagerActivity"
             android:exported="false" />
         <activity
@@ -38,9 +35,6 @@
             android:exported="false" />
         <activity
             android:name=".UserHomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdminActivity"
             android:exported="false" />
         <activity
             android:name=".ui.DangNhap"
