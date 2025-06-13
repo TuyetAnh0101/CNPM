@@ -42,6 +42,10 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+    public String getUserName() {
+        return name;
+    }
+
 
     public String getPassword() {
         return password;

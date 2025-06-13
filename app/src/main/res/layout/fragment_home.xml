@@ -76,7 +76,7 @@
                 app:cornerRadius="12dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnExerciseManager"
+                android:id="@+id/btnTransactionsManager"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="Quản lý các gói đăng ký"

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.restudy.Manager.CategoryManagerActivity;
 import com.example.restudy.Manager.PackagesManagerActivity;
+import com.example.restudy.Manager.TransactionsManagerActivity;
 import com.example.restudy.Manager.UserManagerActivity;
 import com.example.restudy.R;
 import com.example.restudy.Manager.ProductManagerActivity;
@@ -35,7 +36,7 @@ public class HomeFragment extends Fragment {
         View btnPackagesManager = view.findViewById(R.id.btnPackagesManager);
         View btnProductManager = view.findViewById(R.id.btnProductManager);
         View btnCategoryManager = view.findViewById(R.id.btnCategoryManager);
-        View btnExerciseManager = view.findViewById(R.id.btnExerciseManager);
+        View btnTransactionsManager = view.findViewById(R.id.btnTransactionsManager);
 
         // Xử lý sự kiện click
        // btnUserManager.setOnClickListener(v -> {
@@ -57,10 +58,10 @@ public class HomeFragment extends Fragment {
         });
 
 
-      //  btnSentenceManager.setOnClickListener(v -> {
-        //    Intent intent = new Intent(getActivity(), ContactManagerActivity.class);
-     //       startActivity(intent);
-     //   });
+       btnTransactionsManager.setOnClickListener(v -> {
+           Intent intent = new Intent(getActivity(), TransactionsManagerActivity.class);
+           startActivity(intent);
+       });
 
        // btnExerciseManager.setOnClickListener(v -> {
         //    Intent intent = new Intent(getActivity(), ReviewManagerActivity.class);
