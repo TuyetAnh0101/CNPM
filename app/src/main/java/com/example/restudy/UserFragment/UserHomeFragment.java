@@ -1,6 +1,8 @@
 package com.example.restudy.UserFragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -53,8 +55,14 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        // Ưu tiên role truyền qua Bundle
         if (getArguments() != null) {
             userRole = getArguments().getString("role", "user");
+        } else {
+            // Nếu không có thì lấy từ SharedPreferences
+            SharedPreferences prefs = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+            userRole = prefs.getString("userRole", "user");
         }
     }
 
@@ -67,7 +75,7 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
         searchEditText = view.findViewById(R.id.search_edit_text);
         searchIcon = view.findViewById(R.id.searchIcon);
 
-        // Bắt sự kiện cho icon giỏ hàng trong layout
+        // Xử lý nút giỏ hàng
         ImageView cartIcon = view.findViewById(R.id.cartIcon);
         cartIcon.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), CartActivity.class);
@@ -75,10 +83,9 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
         });
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-
         loadProducts();
 
-        // Tạo sự kiện tìm kiếm khi nhấn icon search
+        // Xử lý tìm kiếm
         searchIcon.setOnClickListener(v -> {
             String keyword = searchEditText.getText().toString().trim();
             filterProducts(keyword);
@@ -95,7 +102,7 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
 
     private void filterProducts(String keyword) {
         if (keyword.isEmpty()) {
-            adapter.updateData(productList); // Hiện tất cả sản phẩm nếu tìm trống
+            adapter.updateData(productList); // Hiện tất cả nếu trống
             return;
         }
         List<Product> filtered = new ArrayList<>();
@@ -118,16 +125,14 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
         startActivity(intent);
     }
 
-    // Nếu bạn vẫn muốn menu toolbar (cho admin/user)
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
         if ("admin".equals(userRole)) {
-            inflater.inflate(R.menu.bottom_menu, menu);
+            inflater.inflate(R.menu.bottom_menu, menu); // Menu cho admin
         } else {
-            inflater.inflate(R.menu.menu, menu);
+            inflater.inflate(R.menu.menu, menu); // Menu cho user
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 }

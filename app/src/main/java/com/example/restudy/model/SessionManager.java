@@ -16,10 +16,12 @@ public class SessionManager {
         editor.apply();
     }
 
+    // ✅ Giữ lại DUY NHẤT phương thức logout này
     public static void logout(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
+        editor.putBoolean(KEY_LOGGED_IN, false);
+        editor.putBoolean(KEY_IS_ADMIN, false);
         editor.apply();
     }
 

@@ -16,7 +16,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.restudy.MainActivity;
 import com.example.restudy.R;
+import com.example.restudy.model.SessionManager;
 import com.example.restudy.model.User;
 import com.example.restudy.ui.DangNhap;
 
@@ -28,7 +30,8 @@ public class CaNhanFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
-    public CaNhanFragment() { }
+    public CaNhanFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -52,7 +55,6 @@ public class CaNhanFragment extends Fragment {
         checkLoginStatus();
 
         btnLogin.setOnClickListener(v -> {
-            // Chuyển sang màn hình đăng nhập
             Intent intent = new Intent(getActivity(), DangNhap.class);
             startActivity(intent);
         });
@@ -73,17 +75,24 @@ public class CaNhanFragment extends Fragment {
     }
 
     private void logoutUser() {
+        // Xóa trạng thái đăng nhập
+        SessionManager.logout(requireContext());
+
+        // Xóa thông tin người dùng
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        checkLoginStatus(); // Cập nhật lại giao diện sau khi đăng xuất
+
+        // Chuyển về MainActivity (giao diện người dùng chưa đăng nhập)
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void checkLoginStatus() {
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         if (isLoggedIn) {
-            // Nếu đã đăng nhập, hiện thông tin người dùng
             User user = loadUserFromPrefs();
 
             layoutProfile.setVisibility(View.VISIBLE);
@@ -96,9 +105,7 @@ public class CaNhanFragment extends Fragment {
             tvUserPhone.setText("Số điện thoại: " + user.getPhone());
             tvUserRole.setText("Vai trò: " + user.getRole());
             tvUserActive.setText("Tình trạng: " + (user.isActive() ? "Đang hoạt động" : "Không hoạt động"));
-
         } else {
-            // Chưa đăng nhập, ẩn thông tin cá nhân, chỉ hiện nút đăng nhập
             layoutProfile.setVisibility(View.GONE);
             btnLogin.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.GONE);
@@ -107,7 +114,6 @@ public class CaNhanFragment extends Fragment {
 
     private User loadUserFromPrefs() {
         User user = new User();
-
         user.setId(sharedPreferences.getInt("userId", 0));
         user.setName(sharedPreferences.getString("userName", "Người dùng"));
         user.setEmail(sharedPreferences.getString("userEmail", "Chưa cập nhật"));
@@ -115,7 +121,6 @@ public class CaNhanFragment extends Fragment {
         user.setPhone(sharedPreferences.getString("userPhone", "Chưa cập nhật"));
         user.setRole(sharedPreferences.getString("userRole", "Người dùng"));
         user.setActive(sharedPreferences.getBoolean("userActive", true));
-
         return user;
     }
 

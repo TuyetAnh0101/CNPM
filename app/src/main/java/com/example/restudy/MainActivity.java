@@ -27,18 +27,19 @@ public class MainActivity extends AppCompatActivity {
 
         mnBottom = findViewById(R.id.bottomNav);
 
-        // Kiểm tra đăng nhập
-        if (!SessionManager.isLoggedIn(this)) {
-            finish(); // Nếu chưa đăng nhập thì đóng activity hoặc chuyển về màn login
-            return;
+        // Luôn load UserHomeFragment nếu chưa đăng nhập
+        Fragment defaultFragment;
+        if (SessionManager.isLoggedIn(this)) {
+            if (SessionManager.isAdmin(this)) {
+                defaultFragment = new HomeFragment(); // Admin
+            } else {
+                defaultFragment = new UserHomeFragment(); // User đã đăng nhập
+            }
+        } else {
+            defaultFragment = new UserHomeFragment(); // Người dùng chưa đăng nhập
         }
 
-        // Hiển thị fragment phù hợp theo vai trò
-        if (SessionManager.isAdmin(this)) {
-            loadFragment(new HomeFragment()); // Admin
-        } else {
-            loadFragment(new UserHomeFragment()); // User
-        }
+        loadFragment(defaultFragment);
 
         // Thiết lập ActionBar
         ActionBar actionBar = getSupportActionBar();
@@ -69,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.mnhome) {
-                if (SessionManager.isAdmin(this)) {
+                if (SessionManager.isLoggedIn(this) && SessionManager.isAdmin(this)) {
                     selectedFragment = new HomeFragment();
                 } else {
-                    selectedFragment = new UserHomeFragment();
+                    selectedFragment = new UserHomeFragment(); // cả user và chưa login
                 }
             } else if (id == R.id.mncanhan) {
                 selectedFragment = new CaNhanFragment();

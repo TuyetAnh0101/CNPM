@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 
 import com.example.restudy.Manager.CategoryManagerActivity;
 import com.example.restudy.Manager.PackagesManagerActivity;
+import com.example.restudy.Manager.ProductManagerActivity;
 import com.example.restudy.Manager.TransactionsManagerActivity;
 import com.example.restudy.Manager.UserManagerActivity;
 import com.example.restudy.R;
-import com.example.restudy.Manager.ProductManagerActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -38,35 +38,27 @@ public class HomeFragment extends Fragment {
         View btnCategoryManager = view.findViewById(R.id.btnCategoryManager);
         View btnTransactionsManager = view.findViewById(R.id.btnTransactionsManager);
 
-        // Xử lý sự kiện click
-       // btnUserManager.setOnClickListener(v -> {
-        //    Intent intent = new Intent(getActivity(), UserManagerActivity.class);
-       //     startActivity(intent);
-       // });
 
+        // Mở các Activity khi click
         btnPackagesManager.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), PackagesManagerActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(getActivity(), PackagesManagerActivity.class));
         });
+
         btnProductManager.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductManagerActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(getActivity(), ProductManagerActivity.class));
         });
+
         btnCategoryManager.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), CategoryManagerActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(getActivity(), CategoryManagerActivity.class));
+        });
+
+        btnTransactionsManager.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), TransactionsManagerActivity.class));
         });
 
 
-       btnTransactionsManager.setOnClickListener(v -> {
-           Intent intent = new Intent(getActivity(), TransactionsManagerActivity.class);
-           startActivity(intent);
-       });
 
-       // btnExerciseManager.setOnClickListener(v -> {
-        //    Intent intent = new Intent(getActivity(), ReviewManagerActivity.class);
-          //  startActivity(intent);
-        //});
+        // Nếu bạn có thêm nút như: btnExerciseManager, btnReviewManager thì thêm ở đây
 
         return view;
     }

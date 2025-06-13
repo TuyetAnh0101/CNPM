@@ -1,13 +1,17 @@
 package com.example.restudy;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.restudy.UserFragment.UserHomeFragment;
-import com.example.restudy.UserFragment.UserFragment;
+import com.example.restudy.Fragment.HomeFragment; // Menu admin
 import com.example.restudy.UserFragment.PostFragment;
+import com.example.restudy.UserFragment.UserFragment;
+import com.example.restudy.UserFragment.UserHomeFragment;
+import com.example.restudy.model.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -20,16 +24,19 @@ public class UserHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
 
-        bottom = findViewById(R.id.menu); // phải đúng ID trong layout
+        bottom = findViewById(R.id.menu); // ID phải đúng với layout
 
-        // Load fragment mặc định
-        loadFragment(new UserHomeFragment());
+        // Nếu người dùng đã đăng nhập → hiện UserHomeFragment, ngược lại hiện menu admin
+        if (SessionManager.isLoggedIn(this)) {
+            loadFragment(new UserHomeFragment());
+        } else {
+            loadFragment(new HomeFragment()); // Menu admin
+        }
 
-        // Gán listener cho bottom menu
+        // Gán listener cho menu
         bottom.setOnItemSelectedListener(getItemBottomListener());
     }
 
-    // Phương thức xử lý lựa chọn menu bằng if-else
     private NavigationBarView.OnItemSelectedListener getItemBottomListener() {
         return new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -38,25 +45,43 @@ public class UserHomeActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.userhome) {
-                    selectedFragment = new UserHomeFragment();
+                    if (SessionManager.isLoggedIn(UserHomeActivity.this)) {
+                        selectedFragment = new UserHomeFragment();
+                    } else {
+                        selectedFragment = new HomeFragment(); // Hiện menu admin
+                    }
+
                 } else if (id == R.id.post) {
-                    selectedFragment = new PostFragment();
+                    if (SessionManager.isLoggedIn(UserHomeActivity.this)) {
+                        selectedFragment = new PostFragment();
+                    } else {
+                        Toast.makeText(UserHomeActivity.this, "Bạn cần đăng nhập để đăng bài", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+
                 } else if (id == R.id.user_user) {
-                    selectedFragment = new UserFragment();
-                } else {
-                    return false;
+                    if (SessionManager.isLoggedIn(UserHomeActivity.this)) {
+                        selectedFragment = new UserFragment();
+                    } else {
+                        selectedFragment = new HomeFragment();
+                    }
                 }
-                loadFragment(selectedFragment);
-                return true;
+
+                if (selectedFragment != null) {
+                    loadFragment(selectedFragment);
+                    return true;
+                }
+
+                return false;
             }
         };
     }
 
-    // Hàm thay thế fragment hiển thị
+
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, fragment) // ID phải đúng với FrameLayout trong XML
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 }
