@@ -40,6 +40,8 @@ public class TransactionsDatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_STATUS + " TEXT, "
                 + COLUMN_CREATED_AT + " TEXT)";
         db.execSQL(CREATE_TABLE);
+        Cursor cursor = db.rawQuery("SELECT * FROM Transactions ORDER BY datetime(created_at) DESC", null);
+
     }
 
     // Nâng cấp
@@ -106,16 +108,17 @@ public class TransactionsDatabaseHelper extends SQLiteOpenHelper {
     public List<Transactions> getAllTransactions() {
         List<Transactions> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Transactions", null);
+        // Sắp xếp theo ngày mới nhất
+        Cursor cursor = db.rawQuery("SELECT * FROM Transactions ORDER BY datetime(" + COLUMN_CREATED_AT + ") DESC", null);
 
         if (cursor.moveToFirst()) {
             do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                int userId = cursor.getInt(cursor.getColumnIndexOrThrow("user_id"));
-                int packageId = cursor.getInt(cursor.getColumnIndexOrThrow("package_id"));
-                int amount = cursor.getInt(cursor.getColumnIndexOrThrow("amount"));
-                String status = cursor.getString(cursor.getColumnIndexOrThrow("status"));
-                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow("created_at"));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID));
+                int userId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_USER_ID));
+                int packageId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PACKAGE_ID));
+                int amount = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_AMOUNT));
+                String status = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STATUS));
+                String createdAt = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CREATED_AT));
 
                 Transactions t = new Transactions(id, userId, packageId, amount, status, createdAt);
                 list.add(t);
@@ -126,5 +129,6 @@ public class TransactionsDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return list;
     }
+
 
 }

@@ -76,7 +76,16 @@ public class TransactionsManagerActivity extends AppCompatActivity {
         adapter = new TransactionsAdapter(this, transactionList);
         rvTransactions.setLayoutManager(new LinearLayoutManager(this));
         rvTransactions.setAdapter(adapter);
+
+        for (Transactions t : transactionList) {
+            if (isTransactionExpiringSoon(t)) {
+                Toast.makeText(this,
+                        "⚠ Gói của người dùng ID " + t.getUserId() + " sắp hết hạn!",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
     }
+
 
     private void showAddTransactionDialog() {
         View view = LayoutInflater.from(this).inflate(R.layout.add_transactions_layout, null);
@@ -121,6 +130,28 @@ public class TransactionsManagerActivity extends AppCompatActivity {
 
         dialog.show();
     }
+    private boolean isTransactionExpiringSoon(Transactions transaction) {
+        Packages pkg = packageDB.getPackageById(transaction.getPackageId());
+        if (pkg == null) return false;
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            Date createdAtDate = sdf.parse(transaction.getCreatedAt());
+
+            long durationDays = pkg.getDuration(); // Số ngày
+            long millisPerDay = 24 * 60 * 60 * 1000L;
+            long expiredTime = createdAtDate.getTime() + durationDays * millisPerDay;
+
+            long now = System.currentTimeMillis();
+            long oneDayBeforeExpire = expiredTime - millisPerDay;
+
+            return now >= oneDayBeforeExpire && now <= expiredTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     private List<String> getUserNames() {
         List<String> names = new ArrayList<>();
