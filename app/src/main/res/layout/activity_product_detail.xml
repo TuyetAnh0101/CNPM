@@ -1,141 +1,122 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/product_detail"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
-    android:padding="16dp">
+    android:id="@+id/product_details"
+    android:orientation="vertical"
+    android:background="#ffffff">
 
-    <LinearLayout
+    <!-- ViewPager ảnh sản phẩm -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/product_images_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="250dp" />
 
-        <!-- Ảnh sản phẩm -->
-        <ImageView
-            android:id="@+id/product_image"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/image_rounded_corners"
-            android:contentDescription="Product Image" />
+    <!-- Thông tin sản phẩm trong ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp">
 
-        <!-- Tên sản phẩm -->
-        <TextView
-            android:id="@+id/product_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tên sản phẩm"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#222222"
-            android:paddingTop="12dp"
-            android:maxLines="2"
-            android:ellipsize="end" />
-
-        <!-- Giá -->
-        <TextView
-            android:id="@+id/product_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="₫200,000"
-            android:textSize="20sp"
-            android:textColor="#FF5722"
-            android:paddingTop="6dp"
-            android:textStyle="bold" />
-
-        <!-- Divider nhẹ -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE"
-            android:layout_marginVertical="12dp" />
-
-        <!-- Thông tin khác -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:orientation="vertical">
 
+            <!-- Tên sản phẩm -->
             <TextView
-                android:id="@+id/product_stock"
+                android:id="@+id/product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Số lượng trong kho: 100"
-                android:textSize="14sp"
-                android:textColor="#555555" />
+                android:text="Bao da iPad Xoay 720°"
+                android:textSize="18sp"
+                android:textColor="#212121"
+                android:textStyle="bold" />
 
+            <!-- Giá hiện tại -->
             <TextView
-                android:id="@+id/product_status"
-                android:layout_width="match_parent"
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trạng thái: Còn hàng"
-                android:textSize="14sp"
-                android:textColor="#555555"
+                android:text="₫113.770"
+                android:textColor="#FF5722"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:paddingTop="4dp" />
 
-            <TextView
-                android:id="@+id/product_category"
+
+
+            <!-- Ưu đãi: Freeship, Voucher -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Danh mục: Thời trang"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FREESHIP"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/btn_rounded_red"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VOUCHER"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/btn_rounded_blue"
+                    android:layout_marginStart="8dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Mô tả sản phẩm -->
+            <TextView
+                android:id="@+id/product_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bao da xoay 720 độ, hỗ trợ nhiều dòng iPad, thiết kế sang trọng, dễ dàng tháo lắp và điều chỉnh góc nhìn."
                 android:textSize="14sp"
-                android:textColor="#555555"
-                android:paddingTop="4dp" />
-
-            <TextView
-                android:id="@+id/product_createdAt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ngày tạo: 01/01/2025"
-                android:textSize="12sp"
-                android:textColor="#999999"
-                android:paddingTop="8dp" />
-
-            <TextView
-                android:id="@+id/product_updatedAt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Cập nhật: 05/06/2025"
-                android:textSize="12sp"
-                android:textColor="#999999"
-                android:paddingTop="2dp" />
+                android:textColor="#444444"
+                android:lineSpacingExtra="4dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="16dp" />
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Mô tả sản phẩm -->
-        <TextView
-            android:id="@+id/product_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mô tả sản phẩm chi tiết tại đây..."
-            android:textSize="15sp"
-            android:textColor="#444444"
-            android:lineSpacingExtra="4dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp" />
+    <!-- Thanh dưới cùng: Thêm giỏ + Mua ngay -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:elevation="8dp"
+        android:padding="8dp">
 
-        <!-- Nút Thêm vào giỏ hàng -->
         <Button
             android:id="@+id/button_add_to_cart"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Thêm vào giỏ hàng"
-            android:textAllCaps="false"
-            android:backgroundTint="#E4D9D5"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Thêm vào giỏ"
+            android:backgroundTint="#F2EEE6"
+            android:textColor="#783A3A"
+            android:textSize="14sp" />
 
-        <!-- Nút Mua ngay -->
         <Button
             android:id="@+id/button_buy_now"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:text="Mua ngay"
-            android:textAllCaps="false"
-            android:backgroundTint="#FF7043"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-          />
+            android:backgroundTint="#0E2B38"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

@@ -13,49 +13,41 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.restudy.R;
 import com.example.restudy.Utils;
+import com.example.restudy.adt.ProductImageAdapter;
 import com.example.restudy.model.CartManager;
 import com.example.restudy.model.Product;
+
+import java.util.List;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "ProductDetailActivity";
 
-    private ImageView productImage;
-    private TextView productName, productPrice, productDescription,
-            productStock, productStatus, productCategory,
-            productCreatedAt, productUpdatedAt;
-
+    private ViewPager2 productImageSlider;
+    private TextView productName, productPrice, productDescription;
     private Button buttonAddToCart, buttonBuyNow;
-
     private Product currentProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         EdgeToEdge.enable(this);
-
         setContentView(R.layout.activity_product_detail);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.product_details), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        productImage = findViewById(R.id.product_image);
+        productImageSlider = findViewById(R.id.product_images_viewpager);
         productName = findViewById(R.id.product_name);
         productPrice = findViewById(R.id.product_price);
         productDescription = findViewById(R.id.product_description);
-        productStock = findViewById(R.id.product_stock);
-        productStatus = findViewById(R.id.product_status);
-        productCategory = findViewById(R.id.product_category);
-        productCreatedAt = findViewById(R.id.product_createdAt);
-        productUpdatedAt = findViewById(R.id.product_updatedAt);
-
         buttonAddToCart = findViewById(R.id.button_add_to_cart);
         buttonBuyNow = findViewById(R.id.button_buy_now);
 
@@ -64,43 +56,31 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (currentProduct != null) {
             showProductDetail(currentProduct);
         } else {
-            productName.setText(R.string.hello_blank_fragment);
+            productName.setText("Không có dữ liệu sản phẩm");
         }
 
-        // Thêm sản phẩm vào giỏ hàng
         buttonAddToCart.setOnClickListener(v -> {
             if (currentProduct != null) {
                 CartManager.getInstance().addProduct(currentProduct);
                 Toast.makeText(this, currentProduct.getName() + " đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Add to cart clicked: " + currentProduct.getName());
             }
         });
 
-        // Xử lý nút Mua ngay
         buttonBuyNow.setOnClickListener(v -> {
             if (currentProduct != null) {
-                // TODO: chuyển sang trang thanh toán hoặc xử lý mua ngay
                 Toast.makeText(this, "Mua ngay: " + currentProduct.getName(), Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Buy now clicked: " + currentProduct.getName());
             }
         });
     }
 
     private void showProductDetail(Product product) {
         productName.setText(product.getName());
-        productPrice.setText(String.format("Price: $%.2f", product.getPrice()));
-        productDescription.setText("Description: " + product.getDescription());
-        productStock.setText("Stock: " + product.getStock());
-        productStatus.setText("Status: " + (product.isStatus() ? "Available" : "Out of stock"));
-        productCategory.setText("Category ID: " + product.getCategoryId());
-        productCreatedAt.setText("Created At: " + product.getCreatedAt());
-        productUpdatedAt.setText("Updated At: " + product.getUpdatedAt());
+        productPrice.setText("₫" + String.format("%.0f", product.getPrice()));
+        productDescription.setText("Mô tả: " + product.getDescription());
 
-        Bitmap bitmap = Utils.convertToBitmapFromAssets(this, product.getImage());
-        if (bitmap != null) {
-            productImage.setImageBitmap(bitmap);
-        } else {
-            productImage.setImageResource(R.drawable.person);
-        }
+        // Load ảnh (nếu là nhiều ảnh thì sửa Product để chứa danh sách ảnh)
+        List<String> imageList = List.of(product.getImage()); // hoặc product.getImages() nếu có danh sách
+        ProductImageAdapter adapter = new ProductImageAdapter(this, imageList);
+        productImageSlider.setAdapter(adapter);
     }
 }

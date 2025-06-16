@@ -99,6 +99,14 @@ public class ProductManagerActivity extends AppCompatActivity implements Product
     }
 
     private void openAddDialog() {
+        if (categoryList.isEmpty()) {
+            Toast.makeText(this, "Chưa có danh mục nào. Vui lòng thêm trước.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        openProductDialog(null);
+    }
+
+    private void openProductDialog(Product existingProduct) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.addpoductlayout);
         dialog.setCancelable(true);
@@ -112,16 +120,26 @@ public class ProductManagerActivity extends AppCompatActivity implements Product
         Switch switchStatus = dialog.findViewById(R.id.switchStatus);
         Button btnSave = dialog.findViewById(R.id.btnSaveProduct);
 
-        if (categoryList.isEmpty()) {
-            Toast.makeText(this, "Chưa có danh mục nào. Vui lòng thêm trước.", Toast.LENGTH_LONG).show();
-            dialog.dismiss();
-            return;
-        }
-
         ArrayAdapter<Category> adapterSpinner = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, categoryList);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(adapterSpinner);
+
+        if (existingProduct != null) {
+            edtName.setText(existingProduct.getName());
+            edtDescription.setText(existingProduct.getDescription());
+            edtPrice.setText(String.valueOf(existingProduct.getPrice()));
+            edtQuantity.setText(String.valueOf(existingProduct.getQuantity()));
+            edtImagePath.setText(existingProduct.getImage());
+            switchStatus.setChecked(existingProduct.getStatus());
+
+            for (int i = 0; i < categoryList.size(); i++) {
+                if (categoryList.get(i).getId() == existingProduct.getCategoryId()) {
+                    spinnerCategory.setSelection(i);
+                    break;
+                }
+            }
+        }
 
         btnSave.setOnClickListener(v -> {
             String name = edtName.getText().toString().trim();
@@ -139,20 +157,27 @@ public class ProductManagerActivity extends AppCompatActivity implements Product
             try {
                 double price = Double.parseDouble(priceStr);
                 int quantity = Integer.parseInt(quantityStr);
-
-                Category selectedCategory = (Category) spinnerCategory.getSelectedItem();
-                int categoryId = selectedCategory.getId();
-
+                int categoryId = ((Category) spinnerCategory.getSelectedItem()).getId();
                 String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-                long newId = productDB.addProduct(name, price, description, imagePath, categoryId, quantity, isActive ? 1 : 0, now, now);
-                if (newId != -1) {
-                    Toast.makeText(this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                    loadData();
-                    dialog.dismiss();
+                if (existingProduct == null) {
+                    long id = productDB.addProduct(name, price, description, imagePath, categoryId, quantity, isActive ? 1 : 0, now, now);
+                    if (id != -1) {
+                        Toast.makeText(this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this, "Thêm sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+                    int result = productDB.updateProduct(existingProduct.getId(), name, price, description, imagePath, categoryId, quantity, isActive ? 1 : 0, now);
+                    if (result > 0) {
+                        Toast.makeText(this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+                loadData();
+                dialog.dismiss();
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "Giá và số lượng phải là số hợp lệ", Toast.LENGTH_SHORT).show();
             }
@@ -163,86 +188,7 @@ public class ProductManagerActivity extends AppCompatActivity implements Product
 
     @Override
     public void onProductEdit(int position) {
-        Product product = productList.get(position);
-
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.addpoductlayout);
-        dialog.setCancelable(true);
-
-        EditText edtImagePath = dialog.findViewById(R.id.edtImagePath);
-        EditText edtName = dialog.findViewById(R.id.edtProductName);
-        EditText edtDescription = dialog.findViewById(R.id.edtProductDescription);
-        EditText edtPrice = dialog.findViewById(R.id.edtProductPrice);
-        EditText edtQuantity = dialog.findViewById(R.id.edtProductQuantity);
-        Spinner spinnerCategory = dialog.findViewById(R.id.spinnerCategory);
-        Switch switchStatus = dialog.findViewById(R.id.switchStatus);
-        Button btnSave = dialog.findViewById(R.id.btnSaveProduct);
-
-        edtName.setText(product.getName());
-        edtDescription.setText(product.getDescription());
-        edtPrice.setText(String.valueOf(product.getPrice()));
-        edtQuantity.setText(String.valueOf(product.getQuantity()));
-        edtImagePath.setText(product.getImage());
-        switchStatus.setChecked(product.getStatus());
-        ArrayAdapter<Category> adapterSpinner = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, categoryList);
-        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategory.setAdapter(adapterSpinner);
-
-        for (int i = 0; i < categoryList.size(); i++) {
-            if (categoryList.get(i).getId() == product.getCategoryId()) {
-                spinnerCategory.setSelection(i);
-                break;
-            }
-        }
-
-        btnSave.setOnClickListener(v -> {
-            String name = edtName.getText().toString().trim();
-            String description = edtDescription.getText().toString().trim();
-            String priceStr = edtPrice.getText().toString().trim();
-            String quantityStr = edtQuantity.getText().toString().trim();
-            String imagePath = edtImagePath.getText().toString().trim();
-            boolean isActive = switchStatus.isChecked();
-
-            if (name.isEmpty() || priceStr.isEmpty() || quantityStr.isEmpty() || imagePath.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            try {
-                double price = Double.parseDouble(priceStr);
-                int quantity = Integer.parseInt(quantityStr);
-
-                Category selectedCategory = (Category) spinnerCategory.getSelectedItem();
-                int categoryId = selectedCategory.getId();
-
-                String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-
-                int result = productDB.updateProduct(
-                        product.getId(),
-                        name,
-                        price,
-                        description,
-                        imagePath,
-                        categoryId,
-                        quantity,
-                        isActive ? 1 : 0,
-                        now
-                );
-
-                if (result > 0) {
-                    Toast.makeText(this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                    loadData();
-                    dialog.dismiss();
-                } else {
-                    Toast.makeText(this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
-                }
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, "Giá và số lượng phải là số hợp lệ", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialog.show();
+        openProductDialog(productList.get(position));
     }
 
     @Override

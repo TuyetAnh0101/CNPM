@@ -56,11 +56,9 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        // Ưu tiên role truyền qua Bundle
         if (getArguments() != null) {
             userRole = getArguments().getString("role", "user");
         } else {
-            // Nếu không có thì lấy từ SharedPreferences
             SharedPreferences prefs = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
             userRole = prefs.getString("userRole", "user");
         }
@@ -75,17 +73,15 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
         searchEditText = view.findViewById(R.id.search_edit_text);
         searchIcon = view.findViewById(R.id.searchIcon);
 
-        // Xử lý nút giỏ hàng
         ImageView cartIcon = view.findViewById(R.id.cartIcon);
         cartIcon.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), CartActivity.class);
             startActivity(intent);
         });
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2 sản phẩm mỗi hàng
         loadProducts();
 
-        // Xử lý tìm kiếm
         searchIcon.setOnClickListener(v -> {
             String keyword = searchEditText.getText().toString().trim();
             filterProducts(keyword);
@@ -102,7 +98,7 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
 
     private void filterProducts(String keyword) {
         if (keyword.isEmpty()) {
-            adapter.updateData(productList); // Hiện tất cả nếu trống
+            adapter.updateData(productList);
             return;
         }
         List<Product> filtered = new ArrayList<>();
@@ -129,9 +125,9 @@ public class UserHomeFragment extends Fragment implements UserProductAdapter.OnI
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
         if ("admin".equals(userRole)) {
-            inflater.inflate(R.menu.bottom_menu, menu); // Menu cho admin
+            inflater.inflate(R.menu.bottom_menu, menu);
         } else {
-            inflater.inflate(R.menu.menu, menu); // Menu cho user
+            inflater.inflate(R.menu.menu, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
