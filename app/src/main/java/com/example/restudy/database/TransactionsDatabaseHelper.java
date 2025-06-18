@@ -40,8 +40,6 @@ public class TransactionsDatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_STATUS + " TEXT, "
                 + COLUMN_CREATED_AT + " TEXT)";
         db.execSQL(CREATE_TABLE);
-        Cursor cursor = db.rawQuery("SELECT * FROM Transactions ORDER BY datetime(created_at) DESC", null);
-
     }
 
     // Nâng cấp
@@ -129,6 +127,4 @@ public class TransactionsDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return list;
     }
-
-
 }

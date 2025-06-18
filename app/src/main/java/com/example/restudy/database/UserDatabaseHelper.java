@@ -188,4 +188,11 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return isLoggedIn;
     }
+    public User getUserById(int id) {
+        for (User u : getAllUsers()) {
+            if (u.getId() == id) return u;
+        }
+        return null;
+    }
+
 }

@@ -1,9 +1,10 @@
 package com.example.restudy.adt;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.content.Context;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,14 +17,23 @@ import java.util.List;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Transactions> transactionList;
-
-    public TransactionsAdapter(Context context, List<Transactions> transactionList) {
-        this.context = context;
-        this.transactionList = transactionList;
+    // Interface để xử lý sự kiện khi click vào item
+    public interface OnTransactionClickListener {
+        void onTransactionClick(Transactions transaction);
     }
 
+    private Context context;
+    private List<Transactions> transactionList;
+    private OnTransactionClickListener listener;
+
+    // Constructor truyền thêm listener
+    public TransactionsAdapter(Context context, List<Transactions> transactionList, OnTransactionClickListener listener) {
+        this.context = context;
+        this.transactionList = transactionList;
+        this.listener = listener;
+    }
+
+    // Cập nhật danh sách và refresh RecyclerView
     public void setTransactionList(List<Transactions> list) {
         this.transactionList = list;
         notifyDataSetChanged();
@@ -36,6 +46,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TransactionsAdapter.ViewHolder holder, int position) {
         Transactions t = transactionList.get(position);
@@ -44,6 +55,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         holder.tvAmount.setText("Số tiền: " + t.getAmount() + "đ");
         holder.tvStatus.setText("Trạng thái: " + t.getStatus());
         holder.tvCreatedAt.setText("Thời gian: " + t.getCreatedAt());
+
+        // Gán sự kiện click
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onTransactionClick(t);
+            }
+        });
     }
 
     @Override
@@ -51,6 +69,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         return transactionList != null ? transactionList.size() : 0;
     }
 
+    // ViewHolder ánh xạ view trong item layout
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTransactionId, tvPackageId, tvAmount, tvStatus, tvCreatedAt;
 

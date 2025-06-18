@@ -96,7 +96,6 @@ public class PackagesDatabaseHelper extends SQLiteOpenHelper {
                 packageList.add(pkg);
             } while (cursor.moveToNext());
         }
-
         cursor.close();
         return packageList;
     }

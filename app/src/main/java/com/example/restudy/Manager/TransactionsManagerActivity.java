@@ -1,6 +1,7 @@
 package com.example.restudy.Manager;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restudy.Detail.TransactionDetailActivity;
 import com.example.restudy.R;
 import com.example.restudy.adt.TransactionsAdapter;
 import com.example.restudy.database.PackagesDatabaseHelper;
@@ -58,7 +60,6 @@ public class TransactionsManagerActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Ánh xạ
         rvTransactions = findViewById(R.id.rvTransactions);
         btnAdd = findViewById(R.id.btnAddTransaction);
 
@@ -73,7 +74,14 @@ public class TransactionsManagerActivity extends AppCompatActivity {
 
     private void loadData() {
         transactionList = transactionsDB.getAllTransactions();
-        adapter = new TransactionsAdapter(this, transactionList);
+
+        // Adapter với listener xử lý click
+        adapter = new TransactionsAdapter(this, transactionList, transaction -> {
+            Intent intent = new Intent(TransactionsManagerActivity.this, TransactionDetailActivity.class);
+            intent.putExtra("transaction_id", transaction.getId());
+            startActivity(intent);
+        });
+
         rvTransactions.setLayoutManager(new LinearLayoutManager(this));
         rvTransactions.setAdapter(adapter);
 
@@ -86,7 +94,6 @@ public class TransactionsManagerActivity extends AppCompatActivity {
         }
     }
 
-
     private void showAddTransactionDialog() {
         View view = LayoutInflater.from(this).inflate(R.layout.add_transactions_layout, null);
         Spinner spUser = view.findViewById(R.id.spUser);
@@ -96,13 +103,16 @@ public class TransactionsManagerActivity extends AppCompatActivity {
         EditText edtCreatedAt = view.findViewById(R.id.edtCreatedAt);
         Button btnSave = view.findViewById(R.id.btnSaveTransaction);
 
-        // Load data into spinners
         userList = userDB.getAllUsers();
         packageList = packageDB.getAllPackages();
 
         ArrayAdapter<String> userAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getUserNames());
         ArrayAdapter<String> packageAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getPackageNames());
         ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"success", "fail"});
+
+        userAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        packageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spUser.setAdapter(userAdapter);
         spPackage.setAdapter(packageAdapter);
@@ -130,6 +140,7 @@ public class TransactionsManagerActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
     private boolean isTransactionExpiringSoon(Transactions transaction) {
         Packages pkg = packageDB.getPackageById(transaction.getPackageId());
         if (pkg == null) return false;
@@ -138,7 +149,7 @@ public class TransactionsManagerActivity extends AppCompatActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
             Date createdAtDate = sdf.parse(transaction.getCreatedAt());
 
-            long durationDays = pkg.getDuration(); // Số ngày
+            long durationDays = pkg.getDuration();
             long millisPerDay = 24 * 60 * 60 * 1000L;
             long expiredTime = createdAtDate.getTime() + durationDays * millisPerDay;
 
@@ -151,7 +162,6 @@ public class TransactionsManagerActivity extends AppCompatActivity {
             return false;
         }
     }
-
 
     private List<String> getUserNames() {
         List<String> names = new ArrayList<>();

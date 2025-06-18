@@ -1,6 +1,8 @@
 package com.example.restudy.model;
 
-public class Transactions {
+import java.io.Serializable;
+
+public class Transactions implements Serializable {
     private int id;
     private int userId;        // FK -> Users.id
     private int packageId;     // FK -> Packages.id
