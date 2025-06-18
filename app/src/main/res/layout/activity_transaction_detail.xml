@@ -132,11 +132,10 @@
                     android:id="@+id/tvConfirmation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="✅ Đã xác nhận thanh toán lúc: "
+                    android:text=" Đã xác nhận thanh toán lúc: "
                     android:textSize="18sp"
                     android:textColor="#333"
                     android:paddingVertical="8dp" />
-
                 <!-- Ký tên -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -205,7 +204,6 @@
                             android:layout_marginTop="6dp" />
                     </LinearLayout>
                 </LinearLayout>
-
                 <!-- Ngày xuất hóa đơn -->
                 <TextView
                     android:id="@+id/tvInvoiceDate"
