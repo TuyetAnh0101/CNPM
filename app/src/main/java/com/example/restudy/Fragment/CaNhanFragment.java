@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -40,8 +41,7 @@ public class CaNhanFragment extends Fragment {
 
         btnLogin = view.findViewById(R.id.btnLogin);
         btnLogout = view.findViewById(R.id.btnLogout);
-
-        layoutProfile = view.findViewById(R.id.layoutProfile);
+         layoutProfile = view.findViewById(R.id.layoutProfile);
 
         tvUserName = view.findViewById(R.id.tvUserName);
         tvUserEmail = view.findViewById(R.id.tvUserEmail);

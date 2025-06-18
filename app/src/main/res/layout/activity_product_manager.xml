@@ -5,32 +5,41 @@
     android:id="@+id/product_manager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Manager.ProductManagerActivity"
     android:padding="16dp"
-    android:background="#FFFFFF">
+    android:background="@color/white"
+    tools:context=".Manager.ProductManagerActivity">
 
     <!-- Tiêu đề -->
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Quản lý sản phẩm"
-        android:textSize="24sp"
+        android:textSize="22sp"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nút thêm sản phẩm -->
-    <Button
+    <!-- Nút thêm sản phẩm hiện đại -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thêm sản phẩm"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#D02715"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="➕ Thêm sản phẩm"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:cornerRadius="24dp"
+        app:iconPadding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:rippleColor="#0D0C0C" />
 
     <!-- Danh sách sản phẩm -->
     <androidx.recyclerview.widget.RecyclerView
@@ -39,6 +48,7 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:padding="8dp"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/btnAddProduct"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

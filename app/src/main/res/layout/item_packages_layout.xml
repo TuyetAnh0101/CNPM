@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="4dp">
+    android:layout_margin="12dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="6dp"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:background="?android:attr/colorBackground"
+        android:padding="16dp">
 
         <!-- Tên gói -->
         <TextView
             android:id="@+id/tvPackageName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tên gói"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000000" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <!-- Mô tả -->
         <TextView
             android:id="@+id/tvPackageDescription"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mô tả ngắn về gói"
+            android:text="Mô tả ngắn về gói dịch vụ"
             android:textSize="14sp"
-            android:textColor="#555555"
-            android:layout_marginTop="4dp" />
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginTop="6dp" />
 
         <!-- Giá và thời hạn -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="12dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -47,42 +50,65 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Giá: 100.000đ"
-                android:textColor="#333333" />
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tvPackageDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thời hạn: 30 ngày"
-                android:textColor="#333333" />
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="15sp" />
         </LinearLayout>
 
-        <!-- Nút sửa / xóa -->
+        <!-- Đường kẻ ngăn cách -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Nút sửa / xóa với vùng bấm đủ lớn -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end"
-            android:layout_marginTop="10dp">
+            android:gravity="end">
 
-            <ImageButton
-                android:id="@+id/btnEditPackage"
+            <FrameLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:padding="6dp"
-                android:layout_marginEnd="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_edit"
-                android:contentDescription="Sửa gói" />
+                android:layout_marginEnd="4dp">
 
-            <ImageButton
-                android:id="@+id/btnDeletePackage"
+                <ImageButton
+                    android:id="@+id/btnEditPackage"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:tint="#00796B"
+                    android:contentDescription="Sửa gói"
+                    tools:ignore="UseAppTint" />
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:padding="6dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_delete"
-                android:contentDescription="Xóa gói" />
+                android:layout_height="48dp">
+
+                <ImageButton
+                    android:id="@+id/btnDeletePackage"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_delete"
+                    android:tint="#D32F2F"
+                    android:contentDescription="Xóa gói"
+                    tools:ignore="UseAppTint" />
+            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>

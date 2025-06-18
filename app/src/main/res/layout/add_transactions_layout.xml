@@ -1,74 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F5F5F5">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:layout_marginBottom="16dp">
 
-        <!-- User -->
-        <TextView android:text="Người dùng"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Spinner
-            android:id="@+id/spUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Package -->
-        <TextView android:text="Gói dịch vụ"
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Spinner
-            android:id="@+id/spPackage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Amount -->
-        <TextView android:text="Số tiền"
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/edtAmount"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập số tiền"
-            android:inputType="number" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- Status -->
-        <TextView android:text="Trạng thái"
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Spinner
-            android:id="@+id/spStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!-- User -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Người dùng"
+                android:textSize="14sp"
+                android:textColor="#616161"
+                android:layout_marginTop="4dp" />
+            <Spinner
+                android:id="@+id/spUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#2196F3" />
 
-        <!-- Created At -->
-        <TextView android:text="Thời gian"
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/edtCreatedAt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="yyyy-MM-dd HH:mm"
-            android:inputType="datetime" />
+            <!-- Package -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gói dịch vụ"
+                android:textSize="14sp"
+                android:textColor="#616161"
+                android:layout_marginTop="12dp" />
+            <Spinner
+                android:id="@+id/spPackage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#2196F3" />
 
-        <!-- Button -->
-        <Button
-            android:id="@+id/btnSaveTransaction"
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lưu giao dịch" />
+            <!-- Amount -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Số tiền">
 
-    </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Status -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trạng thái"
+                android:textSize="14sp"
+                android:textColor="#616161"
+                android:layout_marginTop="12dp" />
+            <Spinner
+                android:id="@+id/spStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#2196F3" />
+
+            <!-- Created At -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Thời gian (yyyy-MM-dd HH:mm)">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtCreatedAt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="datetime" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Button -->
+            <Button
+                android:id="@+id/btnSaveTransaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lưu giao dịch"
+                android:layout_marginTop="20dp"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#4CAF50" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </ScrollView>

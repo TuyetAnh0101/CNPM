@@ -120,7 +120,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         tvUserNameSign.setText("(" + (user != null ? user.getUserName() : "Người mua") + ")");
 
         // Tên bên cung cấp mặc định
-        tvProviderName.setText("(Restudy.vn)");
+        tvProviderName.setText("(cuahangbandocu.vn)");
 
         // Ngày xuất hóa đơn
         tvInvoiceDate.setText("🗓 Ngày xuất hóa đơn: " + getCurrentDate());

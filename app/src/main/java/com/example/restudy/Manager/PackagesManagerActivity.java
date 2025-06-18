@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +30,7 @@ public class PackagesManagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_packages_manager); // đảm bảo file layout này có RecyclerView và FAB
+        setContentView(R.layout.activity_packages_manager);
 
         rcvPackages = findViewById(R.id.recyclerPackages);
         btnAddPackage = findViewById(R.id.btnAddPackage);
@@ -56,7 +56,7 @@ public class PackagesManagerActivity extends AppCompatActivity {
         EditText edtPrice = view.findViewById(R.id.edtPrice);
         EditText edtDuration = view.findViewById(R.id.edtDuration);
         EditText edtMaxPosts = view.findViewById(R.id.edtMaxPosts);
-        Switch swCanPin = view.findViewById(R.id.swCanPin);
+        SwitchCompat swCanPin = view.findViewById(R.id.swCanPin); // ✅ sửa đúng biến
 
         new AlertDialog.Builder(this)
                 .setTitle("Thêm gói mới")
@@ -87,8 +87,9 @@ public class PackagesManagerActivity extends AppCompatActivity {
         EditText edtPrice = view.findViewById(R.id.edtPrice);
         EditText edtDuration = view.findViewById(R.id.edtDuration);
         EditText edtMaxPosts = view.findViewById(R.id.edtMaxPosts);
-        Switch swCanPin = view.findViewById(R.id.swCanPin);
+        SwitchCompat swCanPin = view.findViewById(R.id.swCanPin); // ✅ sửa kiểu cho đúng
 
+        // Gán dữ liệu
         edtName.setText(pkg.getName());
         edtPrice.setText(String.valueOf(pkg.getPrice()));
         edtDuration.setText(String.valueOf(pkg.getDuration()));

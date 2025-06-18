@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentCaNhanRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    android:contentDescription="Thông tin cá nhân người dùng"
     tools:context=".Fragment.CaNhanFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_horizontal"
-        android:background="#FAFAFA">
+        android:padding="20dp"
+        android:gravity="center_horizontal">
 
-        <!-- Nút Đăng nhập (ẩn khi đã đăng nhập) -->
-        <Button
+        <!-- Nút Đăng nhập -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
-            android:layout_width="200dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Đăng nhập"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#3F51B5"
+            android:textColor="@android:color/white"
             android:visibility="gone"
-            android:layout_marginBottom="32dp"
-            android:elevation="4dp" />
+            app:cornerRadius="12dp"
+            app:icon="@drawable/login2"
+            app:iconPadding="8dp"
+            app:iconTint="@android:color/white"
+            app:backgroundTint="#3F51B5"
+            android:layout_marginBottom="32dp" />
 
-        <!-- Layout profile (ẩn khi chưa đăng nhập) -->
+        <!-- Thông tin người dùng -->
         <LinearLayout
             android:id="@+id/layoutProfile"
             android:layout_width="match_parent"
@@ -39,55 +41,43 @@
             android:visibility="gone"
             android:background="#FFFFFF"
             android:elevation="8dp"
-            android:padding="24dp"
             android:layout_marginBottom="32dp"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center_horizontal"
-            android:shape="rectangle">
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="8dp"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên người dùng"
-                android:textSize="28sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:textColor="#212121"
-                android:paddingBottom="16dp" />
+                android:paddingBottom="12dp" />
 
             <View
                 android:layout_width="60dp"
                 android:layout_height="2dp"
                 android:background="#3F51B5"
-                android:layout_marginBottom="24dp"/>
-
-            <!-- Thông tin chi tiết từng dòng theo card style -->
+                android:layout_marginBottom="20dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:divider="?android:attr/dividerHorizontal"
-                android:showDividers="middle"
-                android:paddingVertical="8dp"
-                android:background="#f0f0f0"
                 android:padding="12dp"
+                android:background="#F0F0F0"
                 android:layout_marginBottom="8dp"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:elevation="1dp"
-                android:layout_marginTop="8dp">
+                android:elevation="1dp">
 
                 <TextView
                     android:id="@+id/tvUserEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email: example@email.com"
-                    android:textSize="18sp"
+                    android:text="📧 Email: example@email.com"
+                    android:textSize="16sp"
                     android:textColor="#424242"
                     android:paddingBottom="4dp" />
 
@@ -95,8 +85,8 @@
                     android:id="@+id/tvUserSex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Giới tính: Nam"
-                    android:textSize="18sp"
+                    android:text="👤 Giới tính: Nam"
+                    android:textSize="16sp"
                     android:textColor="#424242"
                     android:paddingBottom="4dp" />
 
@@ -104,8 +94,8 @@
                     android:id="@+id/tvUserPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Số điện thoại: 0123456789"
-                    android:textSize="18sp"
+                    android:text="📞 SĐT: 0123456789"
+                    android:textSize="16sp"
                     android:textColor="#424242"
                     android:paddingBottom="4dp" />
 
@@ -113,8 +103,8 @@
                     android:id="@+id/tvUserRole"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vai trò: Người dùng"
-                    android:textSize="18sp"
+                    android:text="🎓 Vai trò: Người dùng"
+                    android:textSize="16sp"
                     android:textColor="#424242"
                     android:paddingBottom="4dp" />
 
@@ -122,24 +112,28 @@
                     android:id="@+id/tvUserActive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tình trạng: Đang hoạt động"
-                    android:textSize="18sp"
+                    android:text="✅ Trạng thái: Đang hoạt động"
+                    android:textSize="16sp"
                     android:textColor="#424242"
                     android:paddingBottom="4dp" />
             </LinearLayout>
         </LinearLayout>
 
         <!-- Nút Đăng xuất -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
-            android:layout_width="200dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Đăng xuất"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#E53935"
+            android:textColor="@android:color/white"
             android:visibility="gone"
-            android:elevation="4dp" />
+            app:cornerRadius="12dp"
+            app:icon="@drawable/logout"
+            app:iconPadding="8dp"
+            app:iconTint="@android:color/white"
+            app:backgroundTint="#E53935"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </ScrollView>
